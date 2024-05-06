@@ -6,17 +6,23 @@ import Navct from './navbar/nav';
 import Aboutpage from './AboutPage/aboutpage';
 import { Route, Routes } from 'react-router-dom';
 import Login from './LoginPage/login';
+import Register from './RegisterPage/register';
 function App() {
   return (
     <>
-      {/* <Navct />
+
+      <Navct />
+      {/* <Login /> */}
+      {/* <Register /> */}
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/about" element={<Aboutpage />} />
-      </Routes> */}
+      </Routes>
 
-      <Login />
+
 
     </>
   );
