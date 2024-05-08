@@ -43,7 +43,11 @@ exports.loginUser = async (req, res) => {
         }
         // Generate and return JWT token after logged in successfully
         const token = jwt.sign({ userId: user.id }, 'mySecret', { expiresIn: '1h' });
-        res.status(201).json({ token });
+        if ( user.isAdmin !== undefined) {
+            res.status(201).json({ token, isAdmin: user.isAdmin });
+        } else {
+            res.status(500).json({ message: 'Error: User data is incomplete' });
+        }
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
