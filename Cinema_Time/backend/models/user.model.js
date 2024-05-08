@@ -11,25 +11,25 @@ const userSchema = new schema({
     email: {
         type: String,
         required: true,
-        unique: true ,
+        unique: true,
         trim: true
     },
-    password: {  
+    password: {
         type: String,
         required: true,
         trim: true,
-        select: false // Exclude the password field from query results
     },
-    gender:{ 
-        type : String, 
+    gender: {
+        type: String,
         required: true,
     },
-    isAdmin:{ 
-        type : Boolean, 
+    isAdmin: {
+        type: Boolean,
         default: false
-    } },
+    }
+},
     { Timestamp: true })
 
-    const User = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema)
 
-    module.exports = User
+module.exports = User

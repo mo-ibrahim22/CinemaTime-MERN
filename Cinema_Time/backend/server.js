@@ -1,15 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const item = require('./routes/item.js');
-const user = require('./routes/user.js');
+const item = require('./routes/item.route.js');
+const user = require('./routes/user.route.js');
 
 
-require('dotenv').config(); 
+require('dotenv').config();
 
 
-const uri = process.env.ATLAS_URI ;
-mongoose.connect(uri,{useNewUrlParser: true ,useUnifiedTopology: true});
+const uri = process.env.ATLAS_URI;
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
