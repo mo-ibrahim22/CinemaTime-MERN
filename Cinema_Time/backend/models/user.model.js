@@ -14,10 +14,11 @@ const userSchema = new schema({
         unique: true ,
         trim: true
     },
-    password: {
+    password: {  
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        select: false // Exclude the password field from query results
     },
     gender:{ 
         type : String, 
