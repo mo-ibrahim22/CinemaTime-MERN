@@ -1,33 +1,54 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Home from './HomePage/home';
-import Navct from './navbar/nav';
-import Aboutpage from './AboutPage/aboutpage';
-import { Route, Routes } from 'react-router-dom';
-import Login from './LoginPage/login';
-import Register from './RegisterPage/register';
-import AdminPage from './AdminPage/adminpage';
+import Home from './components/HomePage/home';
+import Navct from './components/navbar/nav';
+import Aboutpage from './components/AboutPage/aboutpage';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Login from './components/LoginPage/login';
+import Register from './components/RegisterPage/register';
+import AdminPage from './components/AdminPage/adminpage';
+import { useAuth } from './context/AuthContext'; // Assuming your context file is named AuthContext.js
+import Profilepg from './components/ProfilePage/profilepage';
+import Usersdata from './components/AdminPage/usersdata';
+
 function App() {
+  const { user } = useAuth();
+
+
   return (
     <>
-
-      {/* <Navct /> */}
-      {/* <Login /> */}
-      {/* <Register /> */}
-
-      {/* 
+      {user && <Navct />}
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/about" element={<Aboutpage />} />
-      </Routes> */}
 
-      <AdminPage />
+        <Route path="/" element={user ? <Navigate to="/home" /> : <Login />} />
+        <Route path="/register" element={user ? <Navigate to="/home" /> : <Register />} />
 
+        {user && (
+          <>
+            <Route path="/home" element={<Home />} />
+            <Route path="/about" element={<Aboutpage />} />
+            <Route path="/profile/:email" element={<Profilepg />} />
+          </>
+        )}
 
+        {user && !user.isAdmin && (
+          <Route path="/admin/*" element={<Navigate to="/home" />} />
+        )}
 
+        {user && user.isAdmin && (
+          <>
+            <Route path="/admin/*" element={<AdminPage />}>
+              <Route path="usersdata" element={<Usersdata />} />
+            </Route>
+          </>
+        )}
+
+        {!user && (
+          <Route path="*" element={<Navigate to="/" replace />} />
+        )}
+
+      </Routes>
     </>
   );
 }

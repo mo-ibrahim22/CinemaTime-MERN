@@ -1,0 +1,21 @@
+.adminbg {
+    background-image: url("../../../img/venom.jpg");
+    /* Full height */
+    height: 100vh;
+    width: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.adminbg::after {
+    content: "";
+    background: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
