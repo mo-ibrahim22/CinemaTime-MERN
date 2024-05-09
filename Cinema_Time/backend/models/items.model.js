@@ -1,16 +1,13 @@
 const mongoose = require('mongoose');
+const { Timestamp } = require('mongodb')
 
 const itemSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true
-  },
   categorie: {
     type: String, // Anime , movie , tv shows
     required: true
   },
   poster: {
-    type: String,
+    type: String, // Store as base64 string
     required: true
   },
   rating: {
@@ -33,9 +30,7 @@ const itemSchema = new mongoose.Schema({
     type: String,
     required: true
   }
-}, {
-  timestamps: true // Add createdAt and updatedAt timestamps
-});
+}, { Timestamp: true })
 
 const item = mongoose.model('item', itemSchema);
 

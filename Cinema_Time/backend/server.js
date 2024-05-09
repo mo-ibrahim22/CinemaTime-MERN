@@ -28,3 +28,4 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/item', item);
 app.use('/api/user', user);
+app.use('/images', express.static('images'));

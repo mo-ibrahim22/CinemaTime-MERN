@@ -42,7 +42,7 @@ exports.loginUser = async (req, res) => {
             return res.status(400).json({ message: 'Invalid password for the User' });
         }
         // Generate and return JWT token after logged in successfully
-        const token = jwt.sign({ userId: user.id }, 'mySecret', { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.id }, 'mySecret', { expiresIn: '100d' });
         if ( user.isAdmin !== undefined) {
             res.status(201).json({ token, isAdmin: user.isAdmin });
         } else {
@@ -97,7 +97,6 @@ exports.updateUser = async (req, res) => {
             return res.status(403).json({ message: 'Unauthorized: You are not allowed to update this user\'s data' });
         }
 
-        console.log('newPassword:', newPassword);
         // Verify old password if provided
         if (oldPassword) {
             const passwordMatch = await bcrypt.compare(oldPassword, userToUpdate.password);
@@ -108,13 +107,9 @@ exports.updateUser = async (req, res) => {
             return res.status(400).json({ message: 'Old password is required to update user.' });
         }
 
-
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-
         // Update user information
         const updatedFields = { name, email, password: hashedPassword, gender };
-
 
         const updatedUser = await User.findByIdAndUpdate(
             id,
