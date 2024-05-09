@@ -45,6 +45,12 @@ function Register() {
             const { token } = response.data;
             createuser(token, email, false); // isAdmin set to false for new users
             navigate("/home");
+            swal.fire({
+                icon: "success",
+                icon: "success",
+                title: `Welcome, ${values.email.split("@")[0].charAt(0).toUpperCase() + values.email.split("@")[0].slice(1)}!`,
+                text: "You have successfully registered.",
+            });
         } catch (error) {
             console.error("Registration error:", error);
             swal.fire({
@@ -58,18 +64,18 @@ function Register() {
     return (
         <>
             <div className="vh-100 logbg">
-                <div className="vh-100 d-flex justify-content-center align-items-center blur-bg">
-                    <div className="container col-sm-12 col-md-8 col-lg-6 border rounded-5 bglform p-4 ">
+                <div className="vh-100 d-flex justify-content-center align-items-center blur-bg overflow-auto">
+                    <div className="container col-sm-12 col-md-8 col-lg-6 border rounded-5 bglform p-5 ">
                         <Formik
                             initialValues={initialValues}
                             validationSchema={validationSchema}
                             onSubmit={onSubmit}
                         >
                             <Form>
-                                <h1 className="text-center text-light mt-4">Register</h1>
+                                <h1 className="text-center text-light  pt-3">Register</h1>
 
                                 <div className="row">
-                                    <div className="mt-4 text-light col-sm-12 col-md-6">
+                                    <div className=" pt-3 text-light col-sm-12 col-md-6">
                                         <div>
                                             <label htmlFor="name">Name</label>
                                         </div>
@@ -83,7 +89,7 @@ function Register() {
                                         <ErrorMessage name="name" className="text-danger" component="div" />
                                     </div>
 
-                                    <div className="mt-4 text-light col-sm-12 col-md-6">
+                                    <div className=" pt-3 text-light col-sm-12 col-md-6">
                                         <div>
                                             <label htmlFor="email">Email</label>
                                         </div>
@@ -97,7 +103,7 @@ function Register() {
                                         <ErrorMessage name="email" className="text-danger" component="div" />
                                     </div>
 
-                                    <div className="mt-4 text-light col-sm-12 col-md-6">
+                                    <div className=" pt-3 text-light col-sm-12 col-md-6">
                                         <div>
                                             <label htmlFor="password">Password</label>
                                         </div>
@@ -111,7 +117,7 @@ function Register() {
                                         <ErrorMessage name="password" className="text-danger" component="div" />
                                     </div>
 
-                                    <div className="mt-4 text-light col-sm-12 col-md-6">
+                                    <div className=" pt-3 text-light col-sm-12 col-md-6">
                                         <div>
                                             <label htmlFor="confirmPassword">Confirm Password</label>
                                         </div>
@@ -130,7 +136,7 @@ function Register() {
                                     </div>
                                 </div>
 
-                                <div className="mt-4 text-light text-center">
+                                <div className=" pt-3 text-light text-center">
                                     <div>
                                         <label htmlFor="gender" className="h4">
                                             Gender
@@ -149,13 +155,13 @@ function Register() {
                                     <ErrorMessage name="gender" className="text-danger" component="div" />
                                 </div>
 
-                                <div className="d-flex justify-content-center mt-4">
+                                <div className="d-flex justify-content-center  pt-3">
                                     <button className="btn btn-warning w-25 rounded-5" type="submit">
                                         Register
                                     </button>
                                 </div>
 
-                                <div className="d-flex justify-content-center mt-4">
+                                <div className="d-flex justify-content-center  pt-3">
                                     <p className="text-center text-light">
                                         Already have an account?{" "}
                                         <Link to="/" className="text-decoration-none text-warning">

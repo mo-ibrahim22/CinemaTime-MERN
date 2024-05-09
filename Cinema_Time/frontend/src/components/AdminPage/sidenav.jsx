@@ -1,7 +1,8 @@
 import React from "react";
 import './css/sidenav.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClapperboard, faTv, faGhost, faBars, faUser, faCirclePlus, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faClapperboard, faTv, faGhost, faBars, faUser, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
 
 function Sidenav() {
     return (
@@ -17,9 +18,8 @@ function Sidenav() {
                     <a ><FontAwesomeIcon icon={faClapperboard} /> Movies</a>
                     <a ><FontAwesomeIcon icon={faTv} /> TV Shows</a>
                     <a ><FontAwesomeIcon icon={faGhost} /> Anime</a>
+                    <Link to="/admin/usersdata" className="text-light text-decoration-none"><FontAwesomeIcon icon={faUser} /> Users Data</Link>
                     <a ><FontAwesomeIcon icon={faCirclePlus} /> Add New Item</a>
-                    <a ><FontAwesomeIcon icon={faUser} /> Users</a>
-                    <a className="text-danger text-decoration-none"> <FontAwesomeIcon icon={faSignOutAlt} /> Logout </a>
 
                 </div>
             </div>

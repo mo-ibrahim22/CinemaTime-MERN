@@ -18,3 +18,19 @@
 .bglform {
     background-color: rgba(5, 12, 20, 0.7);
 }
+
+.cursorp {
+    cursor: pointer;
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    background-color: rgb(5, 12, 20);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+}

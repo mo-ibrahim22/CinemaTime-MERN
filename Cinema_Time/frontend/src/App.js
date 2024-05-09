@@ -10,9 +10,11 @@ import Register from './components/RegisterPage/register';
 import AdminPage from './components/AdminPage/adminpage';
 import { useAuth } from './context/AuthContext'; // Assuming your context file is named AuthContext.js
 import Profilepg from './components/ProfilePage/profilepage';
+import Usersdata from './components/AdminPage/usersdata';
 
 function App() {
   const { user } = useAuth();
+
 
   return (
     <>
@@ -29,13 +31,22 @@ function App() {
             <Route path="/profile/:email" element={<Profilepg />} />
           </>
         )}
+
+        {user && !user.isAdmin && (
+          <Route path="/admin/*" element={<Navigate to="/home" />} />
+        )}
+
+        {user && user.isAdmin && (
+          <>
+            <Route path="/admin/*" element={<AdminPage />}>
+              <Route path="usersdata" element={<Usersdata />} />
+            </Route>
+          </>
+        )}
+
         {!user && (
           <Route path="*" element={<Navigate to="/" replace />} />
         )}
-
-
-        {user && !user.isAdmin && <Route path="/admin" element={<Navigate to="/home" />} />}
-        {user && user.isAdmin && <Route path="/admin" element={<AdminPage />} />}
 
       </Routes>
     </>

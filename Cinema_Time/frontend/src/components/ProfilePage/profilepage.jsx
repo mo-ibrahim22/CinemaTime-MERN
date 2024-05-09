@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import swal from "sweetalert2";
 import { useAuth } from "../../context/AuthContext";
 import { useParams } from "react-router-dom";
 import Updateacc from "./updateacc";
 import DeleteAccount from "./deleteacc";
 
+import './css/profilebg.css';
+
 function Profilepg() {
     const { user } = useAuth();
     const [userobj, setUserobj] = useState(null);
-    const [displayDeleteForm, setDisplayDeleteForm] = useState(false);
+    const [displayUpdateForm, setDisplayUpdateForm] = useState(true); // Changed state name
     const { email } = useParams();
 
     useEffect(() => {
@@ -20,8 +23,18 @@ function Profilepg() {
                     },
                 });
                 setUserobj(response.data.user);
+                swal.fire({
+                    icon: "success",
+                    title: "User Details Fetched",
+                    text: "User details fetched successfully.",
+                });
             } catch (error) {
                 console.error("Profile fetch error:", error);
+                swal.fire({
+                    icon: "error",
+                    title: "Profile Fetch Error",
+                    text: "An error occurred while fetching user details.",
+                });
             }
         };
 
@@ -32,20 +45,20 @@ function Profilepg() {
         return <div>Loading...</div>;
     }
 
-    const toggleDeleteForm = () => {
-        setDisplayDeleteForm(!displayDeleteForm);
+    const toggleUpdateForm = () => { // Changed function name
+        setDisplayUpdateForm(!displayUpdateForm); // Changed state name
     };
 
     return (
         <>
 
             <div className="vh-100 logbg">
-                <div className="vh-100 d-flex justify-content-center align-items-center blur-bg ">
+                <div className="vh-100 d-flex justify-content-center align-items-center blur-bg overflow-auto">
                     <div className="container-fluid position-relative">
-                        {displayDeleteForm ? <Updateacc userobj={userobj} /> : <DeleteAccount userobj={userobj} />}
+                        {displayUpdateForm ? <Updateacc userobj={userobj} /> : <DeleteAccount userobj={userobj} />}
                         <div className="position-absolute bottom-0 start-50 translate-middle-x pb-4">
-                            <a className={displayDeleteForm ? "text-danger text-decoration-none" : "text-warning text-decoration-none"} onClick={toggleDeleteForm}>
-                                {displayDeleteForm ? "Delete Account" : "Update Account"}
+                            <a className={displayUpdateForm ? "text-danger text-decoration-none cursorp" : "text-warning text-decoration-none cursorp"} onClick={toggleUpdateForm}> {/* Changed class and text condition */}
+                                {displayUpdateForm ? "Delete Account" : "Update Account"}
                             </a>
                         </div>
                     </div>
