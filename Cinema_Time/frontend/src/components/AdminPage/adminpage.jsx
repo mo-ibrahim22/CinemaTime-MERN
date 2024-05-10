@@ -8,7 +8,7 @@ function AdminPage() {
         <>
             <div className="vh-100 adminbg">
                 <div className="vh-100 overflow-auto bluradmin-bg">
-                    <div className="my-5 d-flex position-fixed">
+                    <div className="my-5 px-4 d-flex position-fixed">
                         <div className="my-2">  <Sidenav /> </div>
                         <p className="text-warning p-2 my-2 h2">DashBoard</p>
                     </div>

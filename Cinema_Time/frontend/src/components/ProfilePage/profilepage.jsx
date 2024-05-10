@@ -48,7 +48,7 @@ function Profilepg() {
     }, [email, user.token]);
 
     if (!userobj) {
-        return <div>Loading...</div>;
+        return <div className="bg-black">Loading...</div>;
     }
 
     const toggleUpdateForm = () => { // Changed function name
