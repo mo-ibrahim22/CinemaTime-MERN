@@ -7,7 +7,7 @@ const itemSchema = new mongoose.Schema({
     required: true
   },
   poster: {
-    type: String, // Store as base64 string
+    type: String, 
     required: true
   },
   rating: {

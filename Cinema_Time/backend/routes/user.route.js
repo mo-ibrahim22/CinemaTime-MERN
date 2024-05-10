@@ -21,4 +21,11 @@ router.put('/:id', verifyToken, userController.updateUser);
 // Delete User by ID
 router.delete('/:id', verifyToken, userController.deleteUser);
 
+//add to favourite 
+
+
+//retrive all favourites 
+
+
+// delete from favourite 
 module.exports = router;

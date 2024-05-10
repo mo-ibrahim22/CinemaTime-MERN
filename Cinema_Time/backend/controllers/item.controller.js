@@ -73,9 +73,6 @@ const getItemById = async (req, res) => {
     if (!one_item) {
       return res.status(404).json({ message: 'This item was not found' });
     }
-
-  
-    
     // Check if the poster is already a Cloudinary URL
     let poster = one_item.poster;
     if (!poster.startsWith('http')) {
@@ -84,31 +81,44 @@ const getItemById = async (req, res) => {
         poster = await cloudinary.url(one_item.poster);
       } catch (cloudinaryError) {
         // Handle Cloudinary error
-      
         return res.status(500).json({ message: 'Error fetching Cloudinary URL' });
       }
     }
-
-   
-
     // Update the poster field to be the Cloudinary image URL
     const itemWithCloudinaryURL = {
       ...one_item.toObject(),
       poster: poster
     };
-
     // Respond with the updated item
     res.json(itemWithCloudinaryURL);
   } catch (error) {
-   
     res.status(500).json({ message: 'Error fetching item from database' });
   }
 };
+
+
+/*
+const getItemById = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const Item = await item.findById(id);
+    if (!Item) {
+      return res.status(404).json({ message: 'item not found' });
+    }
+  
+    res.json({ Item ,message: 'item retrived successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+*/
+
 
 const deleteItemById = async (req, res) => {
   if (!req.isAdmin) {
     return res.status(403).json({ message: 'Forbidden Access' });
   }
+
   const id = req.params.id;
   try {
     const deletedItem = await item.findByIdAndDelete(id);

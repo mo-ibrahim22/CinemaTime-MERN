@@ -5,7 +5,9 @@ const itemController = require('../controllers/item.controller');
 
 
 router.get('/:category', verifyToken, itemController.getAllItemsByCategory);
-router.get('/:id', verifyToken, itemController.getItemById);
+
+router.get('/oneitem/:id', verifyToken, itemController.getItemById);
+
 router.delete('/:id', verifyToken, itemController.deleteItemById);
 
 // add new item Admin access
