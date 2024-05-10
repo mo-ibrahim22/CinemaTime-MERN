@@ -10,6 +10,9 @@ router.get('/oneitem/:id', verifyToken, itemController.getItemById);
 
 router.delete('/:id', verifyToken, itemController.deleteItemById);
 
+router.put('/:id', verifyToken, itemController.updateItemById);
+
+
 // add new item Admin access
 router.post('/', verifyToken, itemController.createNewItem);
 module.exports = router;
