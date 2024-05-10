@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 import './css/table.css';
 
@@ -41,7 +42,45 @@ function Itmestable() {
         };
 
         fetchItems();
-    }, [category]);
+    }, [category, apiDomain, user.token, handleUnauthorized]);
+
+    const deleteItem = async (id) => {
+        const result = await swal.fire({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this item!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, keep it'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                await axios.delete(`${apiDomain}/api/item/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                });
+                const updatedItems = items.filter(item => item._id !== id);
+                setItems(updatedItems);
+                swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+            } catch (error) {
+                console.error("Error deleting item:", error);
+                if (error.response.status === 401) {
+                    handleUnauthorized();
+                }
+                else {
+                    swal.fire({
+                        icon: "error",
+                        title: "Delete Error",
+                        text: "An error occurred while deleting the item.",
+                    });
+                }
+            }
+        } else if (result.dismiss === swal.DismissReason.cancel) {
+            swal.fire('Cancelled', 'Your item is safe :)', 'error');
+        }
+    };
 
     return (
         <>
@@ -67,8 +106,8 @@ function Itmestable() {
                                 <td><img src={item.poster} alt={item.title} className="posterbg p-2" /></td>
                                 <td>{item.rating}</td>
                                 <td>{item.categorie}</td>
-                                <td><button className="btn btn-warning">Edit</button></td>
-                                <td><button className="btn btn-danger">Delete</button></td>
+                                <td><Link to={`/admin/updateitem/${item._id}`} className="btn btn-warning">Edit</Link></td>
+                                <td><button onClick={() => deleteItem(item._id)} className="btn btn-danger">Delete</button></td>
                             </tr>
                         ))}
                     </tbody>
