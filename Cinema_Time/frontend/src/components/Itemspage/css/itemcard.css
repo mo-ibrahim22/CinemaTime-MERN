@@ -1,6 +1,6 @@
 .item-img {
-    height: 17.5rem;
-    object-fit: cover;
+    height: 15rem;
+    object-fit: fill;
 }
 
 

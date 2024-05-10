@@ -15,6 +15,7 @@ import Itmestable from './components/AdminPage/itmestable';
 import AddNewItem from './components/AdminPage/addnewitem';
 import Itemspage from './components/Itemspage/itemspage';
 import UpdateItem from './components/AdminPage/updateitem';
+import DetailsPage from './components/DetailsPage/detailspage';
 
 function App() {
   const { user } = useAuth();
@@ -33,6 +34,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/about" element={<Aboutpage />} />
             <Route path="/itemspage/:category" element={<Itemspage />} />
+            <Route path="/detailspage/:itemId" element={<DetailsPage />} />
             <Route path="/profile/:email" element={<Profilepg />} />
           </>
         )}
