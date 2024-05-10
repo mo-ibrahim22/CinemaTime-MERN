@@ -1,21 +1,17 @@
 .adminbg {
     background-image: url("../../../img/venom.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-}
-
-.adminbg::after {
-    content: "";
-    background: rgba(0, 0, 0, 0.6);
-    position: absolute;
-    top: 0;
-    left: 0;
+    /* Full height */
+    height: 100vh;
     width: 100%;
-    height: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
 }
 
-.adminsection {
-    background-color: rgb(5, 12, 20);
+
+.bluradmin-bg {
+    background: rgba(0, 0, 0, 0.6);
+
 }
