@@ -1,0 +1,16 @@
+.itempagebg {
+    background-image: url("../../../img/venom.jpg");
+    /* Full height */
+    height: 100vh;
+    width: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.bluritem-bg {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
