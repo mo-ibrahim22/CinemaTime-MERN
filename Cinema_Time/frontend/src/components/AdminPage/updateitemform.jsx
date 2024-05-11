@@ -7,7 +7,7 @@ import swal from "sweetalert2";
 import './css/newitem.css';
 
 function UpdateItemForm({ item }) {
-    const { user, apiDomain, handleUnauthorized } = useAuth();
+    const { user, apiDomain, handleUnauthorized, networkError } = useAuth();
     const [posterURL, setPosterURL] = useState(item.poster); // To store the image URL
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -59,7 +59,10 @@ function UpdateItemForm({ item }) {
             });
         } catch (error) {
             console.error("Update error:", error);
-            if (error.response.status === 401) {
+            if (error.request) {
+                networkError();
+            }
+            else if (error.response.status === 401) {
                 handleUnauthorized();
             } else {
                 swal.fire({

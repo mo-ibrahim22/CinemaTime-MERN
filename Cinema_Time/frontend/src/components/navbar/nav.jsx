@@ -1,8 +1,8 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBlackTie } from '@fortawesome/free-brands-svg-icons';
-import { faUser, faUserEdit, faSignOutAlt, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faUserEdit, faSignOutAlt, faStar as faStarSolid, faStar } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../context/AuthContext"; // Assuming your context file is named AuthContext.js
 
 function Navct() {
@@ -73,9 +73,9 @@ function Navct() {
             </div>
 
             <div className="d-flex justify-content-between">
-              <button type="button" className="btn btn-outline-warning rounded-5">
+              <NavLink to="/favourites" className="btn btn-outline-warning rounded-5" activeClassName="btn-warning">
                 <FontAwesomeIcon icon={faStar} />
-              </button>
+              </NavLink>
 
 
               <div className="dropdown px-4">

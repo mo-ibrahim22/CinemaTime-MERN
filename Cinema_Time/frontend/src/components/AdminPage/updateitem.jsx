@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import UpdateItemForm from "./updateitemform";
 
 function UpdateItem() {
-    const { user, apiDomain, handleUnauthorized } = useAuth();
+    const { user, apiDomain, handleUnauthorized,networkError } = useAuth();
     const [item, setItem] = useState(null);
     const { itemId } = useParams();
 
@@ -26,7 +26,10 @@ function UpdateItem() {
                 });
             } catch (error) {
                 console.error("Item fetch error:", error);
-                if (error.response.status === 401) {
+                if(error.request) {
+                    networkError();
+                }
+                else if (error.response.status === 401) {
                     handleUnauthorized();
                 }
                 else {

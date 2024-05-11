@@ -5,7 +5,7 @@ import { useAuth } from "../../context/AuthContext"; // Assuming your context fi
 import swal from "sweetalert2";
 
 function Usersdata() {
-    const { user, apiDomain, handleUnauthorized } = useAuth();
+    const { user, apiDomain, handleUnauthorized, networkError } = useAuth();
     const [usersobj, setUsersobj] = useState(null);
 
     useEffect(() => {
@@ -24,7 +24,10 @@ function Usersdata() {
                 });
             } catch (error) {
                 console.error("Profile fetch error:", error);
-                if (error.response.status === 401) {
+                if(error.request) {
+                    networkError();
+                }
+                else if (error.response.status === 401) {
                     handleUnauthorized();
                 } else {
                     swal.fire({

@@ -8,7 +8,7 @@ import "./css/reg.css";
 import swal from "sweetalert2";
 
 function Register() {
-    const { createuser, apiDomain } = useAuth();
+    const { createuser, apiDomain ,networkError} = useAuth();
     const navigate = useNavigate();
 
     const initialValues = {
@@ -53,6 +53,9 @@ function Register() {
             });
         } catch (error) {
             console.error("Registration error:", error);
+            if(error.request) {
+                networkError();
+            }
             swal.fire({
                 icon: "error",
                 title: "Registration Failed",

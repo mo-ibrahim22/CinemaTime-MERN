@@ -10,7 +10,7 @@ import "./css/detailspg.css";
 function DetailsPage() {
     const { itemId } = useParams();
     const [item, setItem] = useState(null);
-    const { user, apiDomain, handleUnauthorized } = useAuth();
+    const { user, apiDomain, handleUnauthorized,networkError } = useAuth();
 
     useEffect(() => {
         const fetchItem = async () => {
@@ -26,7 +26,10 @@ function DetailsPage() {
                 setItem(response.data);
             } catch (error) {
                 console.error("Error fetching item:", error);
-                if (error.response.status === 401) {
+                if(error.request) {
+                    networkError();
+                }
+                else if (error.response.status === 401) {
                     handleUnauthorized();
                 } else {
                     swal.fire({
@@ -70,7 +73,7 @@ function DetailsPage() {
             {item && (
                 <div className="vh-100 detpagebg">
                     <div className="vh-100 overflow-auto blurdet-bg">
-                        <div className="container pt-4">
+                        <div className="container mt-4 pt-4">
                             <div className="container mt-5 p-5 detcont rounded-4 text-light">
                                 <div className="row">
                                     <div className="col-md-4">
@@ -89,9 +92,9 @@ function DetailsPage() {
                                             {renderStars(item.rating)}
                                         </p>
                                         <div className="d-flex justify-content-start align-items-center">
-                                            <a className="btn btn-outline-warning" href={item.trailerLink}>Watch Trailer</a>
+                                            <a className="btn btn-outline-warning" href={item.trailerLink} target="_blank">Watch Trailer</a>
 
-                                            <a className="btn btn-outline-warning mx-4" href={item.watchingLink}>Watch </a>
+                                            <a className="btn btn-outline-warning mx-4" href={item.watchingLink} target="_blank">Watch </a>
                                         </div>
                                     </div>
                                 </div>

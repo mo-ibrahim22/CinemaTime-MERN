@@ -5,10 +5,10 @@ const OurPartners = () => {
         <div>
             <h3 className="h3 text-warning">Our Partners</h3>
             <ul className="text-light">
-                <li>Netflix</li>
-                <li>Hulu</li>
-                <li>Crunchyroll</li>
-                <li>Funimation</li>
+                <li>Youtube</li>
+                <li>IMDb</li>
+                <li>JustWatch</li>
+                <li>WitAnime</li>
             </ul>
         </div>
     );

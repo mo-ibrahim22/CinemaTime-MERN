@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 function Updateacc({ userobj }) {
-    const { user, apiDomain, removeuser, handleUnauthorized } = useAuth();
+    const { user, apiDomain, removeuser, handleUnauthorized ,networkError} = useAuth();
     const navigate = useNavigate();
     const MySwal = withReactContent(Swal);
     const [updateSuccess, setUpdateSuccess] = useState(false);
@@ -61,7 +61,10 @@ function Updateacc({ userobj }) {
             });
         } catch (error) {
             console.error("Update error:", error);
-            if (error.response.status === 401) {
+            if(error.request) {
+                networkError();
+            }
+            else if (error.response.status === 401) {
                 handleUnauthorized();
             }
             else {
