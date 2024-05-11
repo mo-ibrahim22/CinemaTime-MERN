@@ -1,0 +1,39 @@
+.detpagebg {
+    background-image: url("../../../img/venom.jpg");
+    /* Full height */
+    height: 100vh;
+    width: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.blurdet-bg {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.possize {
+    height: 26.5rem;
+    object-fit: fill;
+}
+
+.detcont {
+    background-color: rgba(5, 12, 20, 0.9);
+
+}
+
+
+@media only screen and (max-width: 768px) {
+    .possize {
+        height: 16rem;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .possize {
+        height: 20rem;
+    }
+}

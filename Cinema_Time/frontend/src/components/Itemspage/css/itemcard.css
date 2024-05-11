@@ -1,11 +1,11 @@
 .item-img {
-    height: 17.5rem;
-    object-fit: cover;
+    height: 15rem;
+    object-fit: fill;
 }
 
 
 .card-bg {
-    background-color: rgba(5, 12, 20, 0.7);
+    background-color: rgba(5, 12, 20, 0.9);
 
 }
 

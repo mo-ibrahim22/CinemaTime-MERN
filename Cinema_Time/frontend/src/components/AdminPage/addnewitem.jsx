@@ -102,12 +102,24 @@ function AddNewItem() {
                             </div>
                             <div className="form-group pt-3 text-light">
                                 <label htmlFor="poster">Poster</label>
-                                <input
-                                    type="file"
-                                    name="poster"
-                                    className="form-control"
-                                    onChange={(event) => handleFileChange(event, setFieldValue)}
-                                />
+                                <div>
+                                    <input
+                                        type="text"
+                                        name="poster"
+                                        placeholder="Enter Image URL or Upload File"
+                                        className="form-control"
+                                        onChange={(event) => {
+                                            setPosterURL(event.target.value);
+                                            setFieldValue("poster", event.target.value);
+                                        }}
+                                    />
+                                    <input
+                                        type="file"
+                                        name="posterFile"
+                                        className="form-control mt-2"
+                                        onChange={(event) => handleFileChange(event, setFieldValue)}
+                                    />
+                                </div>
                                 {posterURL && <img src={posterURL} alt="poster" style={{ marginTop: "10px", maxWidth: "200px" }} />}
                                 <ErrorMessage name="poster" component="div" className="text-danger" />
                             </div>

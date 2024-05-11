@@ -109,6 +109,51 @@ const getItemById = async (req, res) => {
 
 
 
+// Update item by ID
+const updateItemById = async (req, res) => {
+  if (!req.isAdmin) {
+    return res.status(403).json({ message: 'Forbidden Access' });
+  }
+
+  const id = req.params.id;
+  const { categorie, poster, rating, title, trailerLink, description, watchingLink } = req.body;
+
+  try {
+    // Check if the item exists
+    const existingItem = await item.findById(id);
+    if (!existingItem) {
+      return res.status(404).json({ message: 'Item not found' });
+    }
+
+    // Upload new image to Cloudinary if a new image is provided
+    let updatedPoster = existingItem.poster;
+    if (poster) {
+      const uploadResult = await cloudinary.uploader.upload(poster, {
+        folder: 'items',
+        resource_type: 'image'
+      });
+      updatedPoster = uploadResult.secure_url;
+    }
+
+    // Update item fields
+    existingItem.categorie = categorie;
+    existingItem.poster = updatedPoster;
+    existingItem.rating = rating;
+    existingItem.title = title;
+    existingItem.trailerLink = trailerLink;
+    existingItem.description = description;
+    existingItem.watchingLink = watchingLink;
+
+    // Save the updated item
+    const updatedItem = await existingItem.save();
+
+    res.json({ updatedItem, message: 'Item updated successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 const deleteItemById = async (req, res) => {
   if (!req.isAdmin) {
     return res.status(403).json({ message: 'Forbidden Access' });
@@ -132,5 +177,6 @@ module.exports = {
   getAllItemsByCategory,
   getItemById,
   deleteItemById,
-  createNewItem
+  createNewItem,
+  updateItemById
 };
