@@ -12,11 +12,10 @@ const createNewItem = async (req, res) => {
   try {
     const { categorie, poster, rating, title, trailerLink, description, watchingLink } = req.body;
 
-    // Upload image to Cloudinary with automatic quality adjustment
+    // Upload image to Cloudinary
     const uploadResult = await cloudinary.uploader.upload(poster, {
       folder: 'items',
-      resource_type: 'image', // Specify resource type as 'image' for image uploads
-      quality: 'auto' // Set quality parameter to 'auto' for automatic quality adjustment
+      resource_type: 'image' // Specify resource type as 'image' for image uploads
     });
 
     // Create new item with Cloudinary URL
