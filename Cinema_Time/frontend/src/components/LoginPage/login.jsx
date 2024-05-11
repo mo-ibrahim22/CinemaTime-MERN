@@ -8,7 +8,7 @@ import "./css/login.css";
 import swal from "sweetalert2";
 
 function Login() {
-    const { createuser, apiDomain } = useAuth();
+    const { createuser, apiDomain,networkError } = useAuth();
     const navigate = useNavigate();
 
     const initialValues = {
@@ -34,11 +34,17 @@ function Login() {
             });
         } catch (error) {
             console.error("Login error:", error);
-            swal.fire({
-                icon: "error",
-                title: "Login Failed",
-                text: "Invalid email or password",
-            });
+            if (error.request) {
+                networkError();
+            }
+            else {
+
+                swal.fire({
+                    icon: "error",
+                    title: "Login Failed",
+                    text: "Invalid email or password",
+                });
+            }
         }
     };
 

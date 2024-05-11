@@ -10,7 +10,7 @@ import './css/table.css';
 function Itmestable() {
     const { category } = useParams();
     const [items, setItems] = useState([]);
-    const { user, apiDomain, handleUnauthorized } = useAuth();
+    const { user, apiDomain, handleUnauthorized,networkError } = useAuth();
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -28,7 +28,11 @@ function Itmestable() {
                 });
             } catch (error) {
                 console.error("Error fetching items:", error);
-                if (error.response.status === 401) {
+
+                if(error.request) {
+                    networkError();
+                }
+                else if (error.response.status === 401) {
                     handleUnauthorized();
                 }
                 else {

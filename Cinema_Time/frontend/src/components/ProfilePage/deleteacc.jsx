@@ -9,7 +9,7 @@ import withReactContent from "sweetalert2-react-content";
 
 
 function DeleteAccount({ userobj }) {
-    const { user, removeuser, apiDomain, handleUnauthorized } = useAuth();
+    const { user, removeuser, apiDomain, handleUnauthorized , networkError} = useAuth();
     const navigate = useNavigate();
     const MySwal = withReactContent(Swal);
     const [deleteSuccess, setDeleteSuccess] = useState(false);
@@ -51,7 +51,10 @@ function DeleteAccount({ userobj }) {
             });
         } catch (error) {
             console.error("Delete error:", error);
-            if (error.response.status === 401) {
+            if(error.request) {
+                networkError();
+            }
+            else if (error.response.status === 401) {
                 handleUnauthorized();
             }
             else {

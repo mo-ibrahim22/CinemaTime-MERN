@@ -16,6 +16,7 @@ import AddNewItem from './components/AdminPage/addnewitem';
 import Itemspage from './components/Itemspage/itemspage';
 import UpdateItem from './components/AdminPage/updateitem';
 import DetailsPage from './components/DetailsPage/detailspage';
+import FavouritesPage from './components/FavPage/favpage';
 
 function App() {
   const { user } = useAuth();
@@ -36,6 +37,7 @@ function App() {
             <Route path="/itemspage/:category" element={<Itemspage />} />
             <Route path="/detailspage/:itemId" element={<DetailsPage />} />
             <Route path="/profile/:email" element={<Profilepg />} />
+            <Route path="/favourites" element={<FavouritesPage />} />
           </>
         )}
 

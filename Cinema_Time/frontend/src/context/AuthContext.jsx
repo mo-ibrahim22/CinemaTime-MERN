@@ -1,5 +1,7 @@
+// AuthContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import swal from "sweetalert2";
 
 // Create a context to manage user authentication
@@ -37,6 +39,34 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
+    // Function to fetch user details
+    const fetchUserDetails = async (email, token, setUserobj) => {
+        try {
+            const response = await axios.get(`${apiDomain}/api/user/${email}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setUserobj(response.data.user);
+
+        } catch (error) {
+            console.error("Profile fetch error:", error);
+            if(error.request) {
+                networkError();
+            }
+            else if (error.response.status === 401) {
+                handleUnauthorized();
+            }
+            else {
+                swal.fire({
+                    icon: "error",
+                    title: "Profile Fetch Error",
+                    text: "An error occurred while fetching user details.",
+                });
+            }
+        }
+    };
+
     //function to handle unauthorized access
     const handleUnauthorized = () => {
         removeuser();
@@ -49,8 +79,16 @@ export const AuthProvider = ({ children }) => {
         });
     };
 
+    const networkError = () => {
+        swal.fire({
+            icon: "error",
+            title: "Network Error",
+            text: "Please check your internet connection and try again.",
+        });
+    };
+
     return (
-        <AuthContext.Provider value={{ user, apiDomain, createuser, removeuser, handleUnauthorized }}>
+        <AuthContext.Provider value={{ user, apiDomain, createuser, removeuser, handleUnauthorized, fetchUserDetails,networkError }}>
             {children}
         </AuthContext.Provider>
     );

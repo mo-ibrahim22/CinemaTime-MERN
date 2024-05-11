@@ -9,7 +9,7 @@ import DeleteAccount from "./deleteacc";
 import './css/profilebg.css';
 
 function Profilepg() {
-    const { user, apiDomain, handleUnauthorized } = useAuth();
+    const { user, apiDomain, handleUnauthorized, networkError } = useAuth();
     const [userobj, setUserobj] = useState(null);
     const [displayUpdateForm, setDisplayUpdateForm] = useState(true); // Changed state name
     const { email } = useParams();
@@ -30,7 +30,10 @@ function Profilepg() {
                 });
             } catch (error) {
                 console.error("Profile fetch error:", error);
-                if (error.response.status === 401) {
+                if (error.request) {
+                    networkError();
+                }
+                else if (error.response.status === 401) {
                     handleUnauthorized();
                 }
                 else {
@@ -48,7 +51,7 @@ function Profilepg() {
     }, [email, user.token]);
 
     if (!userobj) {
-        return <div className="bg-black">Loading...</div>;
+        return;
     }
 
     const toggleUpdateForm = () => { // Changed function name
