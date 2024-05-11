@@ -1,38 +1,38 @@
 const item = require('../models/items.model.js');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model.js');
-const cloudinary = require('../middlewares/cloudinary'); 
+const cloudinary = require('../middlewares/cloudinary');
 
 
 const createNewItem = async (req, res) => {
   if (!req.isAdmin) {
-      return res.status(403).json({ message: 'Forbidden Access' });
+    return res.status(403).json({ message: 'Forbidden Access' });
   }
 
   try {
-      const { categorie, poster, rating, title, trailerLink, description, watchingLink } = req.body;
+    const { categorie, poster, rating, title, trailerLink, description, watchingLink } = req.body;
 
-      // Upload image to Cloudinary
-      const uploadResult = await cloudinary.uploader.upload(poster, {
-          folder: 'items',
-          resource_type: 'image' // Specify resource type as 'image' for image uploads
-      });
+    // Upload image to Cloudinary
+    const uploadResult = await cloudinary.uploader.upload(poster, {
+      folder: 'items',
+      resource_type: 'image' // Specify resource type as 'image' for image uploads
+    });
 
-      // Create new item with Cloudinary URL
-      const newitem = new item({
-          categorie,
-          poster: uploadResult.secure_url, // Store Cloudinary URL
-          rating,
-          title,
-          trailerLink,
-          description,
-          watchingLink
-      });
+    // Create new item with Cloudinary URL
+    const newitem = new item({
+      categorie,
+      poster: uploadResult.secure_url, // Store Cloudinary URL
+      rating,
+      title,
+      trailerLink,
+      description,
+      watchingLink
+    });
 
-      const savedItem = await newitem.save();
-      res.status(201).json({ savedItem, message: 'item saved successfully' });
+    const savedItem = await newitem.save();
+    res.status(201).json({ savedItem, message: 'item saved successfully' });
   } catch (error) {
-      res.status(400).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -41,40 +41,40 @@ const createNewItem = async (req, res) => {
 const getAllItemsByCategory = async (req, res) => {
   const category = req.params.category;
   try {
-      // Fetch items from the database of your category
-      const items = await item.find({ categorie: category });
+    // Fetch items from the database of your category
+    const items = await item.find({ categorie: category });
 
-      // Fetch the user ID from the token
-      const userId = req.userId;
+    // Fetch the user ID from the token
+    const userId = req.userId;
 
-      // Retrieve the user's favorites
-      const user = await User.findById(userId);
-      const userFavorites = user ? user.Favourites : [];
+    // Retrieve the user's favorites
+    const user = await User.findById(userId);
+    const userFavorites = user ? user.Favourites : [];
 
-      // Map through the items and update them to include whether they are in the user's favorites
-      const itemsWithFavoriteInfo = await Promise.all(items.map(async (item) => {
-          // Fetch the Cloudinary URL for each item's poster
-          const cloudinaryURL = await cloudinary.url(item.poster);
+    // Map through the items and update them to include whether they are in the user's favorites
+    const itemsWithFavoriteInfo = await Promise.all(items.map(async (item) => {
+      // Fetch the Cloudinary URL for each item's poster
+      const cloudinaryURL = await cloudinary.url(item.poster);
 
-          // Check if the item is in the user's favorites
-          const isFavorite = userFavorites.includes(item._id.toString());
+      // Check if the item is in the user's favorites
+      const isFavorite = userFavorites.includes(item._id.toString());
 
-          // Return a new object with the Cloudinary URL and favorite information
-          return {
-              ...item.toObject(),
-              poster: cloudinaryURL,
-              isFavorite
-          };
-      }));
+      // Return a new object with the Cloudinary URL and favorite information
+      return {
+        ...item.toObject(),
+        poster: cloudinaryURL,
+        isFavorite
+      };
+    }));
 
-      // Respond with the updated items
-      res.json(itemsWithFavoriteInfo);
+    // Respond with the updated items
+    res.json(itemsWithFavoriteInfo);
   } catch (error) {
-      res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
- 
+
 // Retrieve a specific item by ID (front will use when user clicks on specific film it will display the film details)
 const getItemById = async (req, res) => {
   const id = req.params.id;
@@ -173,10 +173,41 @@ const deleteItemById = async (req, res) => {
 };
 
 
+//count all items 
+
+const countallItems = async (req, res) => {
+  if (!req.isAdmin) {
+    return res.status(403).json({ message: 'Forbidden Access' });
+  }
+
+  try {
+    const moviesCount = await item.countDocuments({ categorie: 'Movies' });
+    const tvShowsCount = await item.countDocuments({ categorie: 'TvShows' });
+    const animeCount = await item.countDocuments({ categorie: 'Anime' });
+    const totalCount = moviesCount + tvShowsCount + animeCount;
+
+    const response = {
+      Movies: moviesCount || 0, // If moviesCount is falsy (like 0 or undefined), default to 0
+      TvShows: tvShowsCount || 0, // If tvShowsCount is falsy (like 0 or undefined), default to 0
+      Anime: animeCount || 0, // If animeCount is falsy (like 0 or undefined), default to 0
+      Total: totalCount
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+
+
 module.exports = {
   getAllItemsByCategory,
   getItemById,
   deleteItemById,
   createNewItem,
-  updateItemById
+  updateItemById,
+  countallItems
 };
