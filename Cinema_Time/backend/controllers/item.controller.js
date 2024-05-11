@@ -12,10 +12,11 @@ const createNewItem = async (req, res) => {
   try {
     const { categorie, poster, rating, title, trailerLink, description, watchingLink } = req.body;
 
-    // Upload image to Cloudinary
+    // Upload image to Cloudinary with automatic quality adjustment
     const uploadResult = await cloudinary.uploader.upload(poster, {
       folder: 'items',
-      resource_type: 'image' // Specify resource type as 'image' for image uploads
+      resource_type: 'image', // Specify resource type as 'image' for image uploads
+      quality: 'auto' // Set quality parameter to 'auto' for automatic quality adjustment
     });
 
     // Create new item with Cloudinary URL
@@ -35,7 +36,6 @@ const createNewItem = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
-
 
 // retreive all item with specific category   
 const getAllItemsByCategory = async (req, res) => {
