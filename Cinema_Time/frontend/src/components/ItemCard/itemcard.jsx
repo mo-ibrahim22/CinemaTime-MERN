@@ -8,7 +8,7 @@ import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import swal from "sweetalert2";
 
-function ItemCard({ items, userid, category, favpage }) {
+function ItemCard({ items, userid, category, favpage, searchQuery }) {
     const { user, apiDomain ,networkError,handleUnauthorized } = useAuth();
     const navigate = useNavigate();
 
@@ -72,11 +72,14 @@ function ItemCard({ items, userid, category, favpage }) {
         return stars;
     };
 
+    // Filter items based on search query
+    const filteredItems = items.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
+
     return (
         <>
             <div className="mt-5 container text-center">
                 <div className="row">
-                    {items.map((item, index) => (
+                    {filteredItems.map((item, index) => (
                         <div key={item._id} className="col-sm-6 col-md-4 col-lg-2 p-3  card-animation">
                             <div className="card rounded-bottom-4 text-light card-bg position-relative ">
                                 <img src={item.poster} className="card-img-top item-img photo-animation" alt={item.title} />

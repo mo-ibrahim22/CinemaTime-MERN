@@ -17,51 +17,53 @@ import Itemspage from './components/Itemspage/itemspage';
 import UpdateItem from './components/AdminPage/updateitem';
 import DetailsPage from './components/DetailsPage/detailspage';
 import FavouritesPage from './components/FavPage/favpage';
+import { SearchProvider } from './context/SearchContext';
 
 function App() {
   const { user } = useAuth();
 
-
   return (
-    <>
-      {user && <Navct />}
-      <Routes>
+    <SearchProvider>
+      <>
+        {user && <Navct />}
+        <Routes>
 
-        <Route path="/" element={user ? <Navigate to="/home" /> : <Login />} />
-        <Route path="/register" element={user ? <Navigate to="/home" /> : <Register />} />
+          <Route path="/" element={user ? <Navigate to="/home" /> : <Login />} />
+          <Route path="/register" element={user ? <Navigate to="/home" /> : <Register />} />
 
-        {user && (
-          <>
-            <Route path="/home" element={<Home />} />
-            <Route path="/about" element={<Aboutpage />} />
-            <Route path="/itemspage/:category" element={<Itemspage />} />
-            <Route path="/detailspage/:itemId" element={<DetailsPage />} />
-            <Route path="/profile/:email" element={<Profilepg />} />
-            <Route path="/favourites" element={<FavouritesPage />} />
-          </>
-        )}
+          {user && (
+            <>
+              <Route path="/home" element={<Home />} />
+              <Route path="/about" element={<Aboutpage />} />
+              <Route path="/itemspage/:category" element={<Itemspage />} />
+              <Route path="/detailspage/:itemId" element={<DetailsPage />} />
+              <Route path="/profile/:email" element={<Profilepg />} />
+              <Route path="/favourites" element={<FavouritesPage />} />
+            </>
+          )}
 
-        {user && !user.isAdmin && (
-          <Route path="/admin/*" element={<Navigate to="/home" />} />
-        )}
+          {user && !user.isAdmin && (
+            <Route path="/admin/*" element={<Navigate to="/home" />} />
+          )}
 
 
-        {user && user.isAdmin && (
-          <Route path="/admin/*" element={<AdminPage />}>
-            <Route path="usersdata" element={<Usersdata />} />
-            <Route path="itmestable/:category" element={<Itmestable />} />
-            <Route path="addnewitem" element={<AddNewItem />} />
-            <Route path="updateitem/:itemId" element={<UpdateItem />} />
+          {user && user.isAdmin && (
+            <Route path="/admin/*" element={<AdminPage />}>
+              <Route path="usersdata" element={<Usersdata />} />
+              <Route path="itmestable/:category" element={<Itmestable />} />
+              <Route path="addnewitem" element={<AddNewItem />} />
+              <Route path="updateitem/:itemId" element={<UpdateItem />} />
 
-          </Route>
-        )}
+            </Route>
+          )}
 
-        {!user && (
-          <Route path="*" element={<Navigate to="/" replace />} />
-        )}
+          {!user && (
+            <Route path="*" element={<Navigate to="/" replace />} />
+          )}
 
-      </Routes>
-    </>
+        </Routes>
+      </>
+    </SearchProvider>
   );
 }
 
