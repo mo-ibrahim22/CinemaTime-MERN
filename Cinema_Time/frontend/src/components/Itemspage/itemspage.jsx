@@ -31,7 +31,7 @@ function Itemspage() {
                 setItems(response.data);
             } catch (error) {
                 console.error("Error fetching items:", error);
-                if (error.request) {
+                if (error.request && !error.response) {
                     networkError();
                 } else if (error.response && error.response.status === 401) {
                     handleUnauthorized();

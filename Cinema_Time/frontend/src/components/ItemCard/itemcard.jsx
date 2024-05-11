@@ -43,7 +43,7 @@ function ItemCard({ items, userid, category, favpage, searchQuery }) {
 
         } catch (error) {
             console.error("Favorite Toggling Error:", error);
-            if (error.request) {
+            if (error.request && !error.response) {
                 networkError();
             }
             else if (error.response.status === 401) {

@@ -34,7 +34,7 @@ function Login() {
             });
         } catch (error) {
             console.error("Login error:", error);
-            if (error.request) {
+            if (error.request && !error.response) {
                 networkError();
             }
             else {

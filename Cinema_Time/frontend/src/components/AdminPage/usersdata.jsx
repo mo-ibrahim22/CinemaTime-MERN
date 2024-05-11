@@ -3,10 +3,12 @@ import axios from "axios";
 import './css/table.css';
 import { useAuth } from "../../context/AuthContext"; // Assuming your context file is named AuthContext.js
 import swal from "sweetalert2";
+import { useSearch } from "../../context/SearchContext"; // Import the SearchContext
 
 function Usersdata() {
     const { user, apiDomain, handleUnauthorized, networkError } = useAuth();
     const [usersobj, setUsersobj] = useState(null);
+    const { searchQuery } = useSearch(); // Get searchQuery from SearchContext
 
     useEffect(() => {
         const fetchUsersDetails = async () => {
@@ -24,7 +26,7 @@ function Usersdata() {
                 });
             } catch (error) {
                 console.error("Profile fetch error:", error);
-                if(error.request) {
+                if (error.request && !error.response) {
                     networkError();
                 }
                 else if (error.response.status === 401) {
@@ -40,11 +42,14 @@ function Usersdata() {
         };
 
         fetchUsersDetails();
-    }, [user.token]);
+    }, [user.token, apiDomain, handleUnauthorized, networkError]);
 
     if (!usersobj) {
         return <div>Loading...</div>;
     }
+
+    // Filter users based on search query
+    const filteredUsers = usersobj.filter(user => user.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
     return (
         <>
@@ -61,7 +66,7 @@ function Usersdata() {
                         </tr>
                     </thead>
                     <tbody>
-                        {usersobj.map((user, index) => (
+                        {filteredUsers.map((user, index) => (
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{user.name}</td>

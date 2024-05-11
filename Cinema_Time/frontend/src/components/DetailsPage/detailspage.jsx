@@ -10,7 +10,7 @@ import "./css/detailspg.css";
 function DetailsPage() {
     const { itemId } = useParams();
     const [item, setItem] = useState(null);
-    const { user, apiDomain, handleUnauthorized,networkError } = useAuth();
+    const { user, apiDomain, handleUnauthorized, networkError } = useAuth();
 
     useEffect(() => {
         const fetchItem = async () => {
@@ -26,7 +26,7 @@ function DetailsPage() {
                 setItem(response.data);
             } catch (error) {
                 console.error("Error fetching item:", error);
-                if(error.request) {
+                if (error.request && !error.response) {
                     networkError();
                 }
                 else if (error.response.status === 401) {

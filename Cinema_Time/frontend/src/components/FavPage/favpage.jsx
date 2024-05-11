@@ -34,7 +34,7 @@ function FavouritesPage() {
                 setFavoriteItems(response.data);
             } catch (error) {
                 console.error("Error fetching favorite items:", error);
-                if (error.request) {
+                if (error.request && !error.response) {
                     networkError();
                 }
                 else if (error.response && error.response.status === 401) {

@@ -7,7 +7,7 @@ import swal from "sweetalert2";
 import './css/newitem.css';
 
 function AddNewItem() {
-    const { user, apiDomain, handleUnauthorized,networkError } = useAuth();
+    const { user, apiDomain, handleUnauthorized, networkError } = useAuth();
     const [posterURL, setPosterURL] = useState(""); // To store the image URL
     const [isSubmitting, setIsSubmitting] = useState(false); // To track form submission
 
@@ -60,7 +60,7 @@ function AddNewItem() {
             // Clear form fields
         } catch (error) {
             console.error("Error adding item:", error);
-            if(error.request) {
+            if (error.request && !error.response) {
                 networkError();
             }
             else if (error.response.status === 401) {
