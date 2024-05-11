@@ -4,13 +4,15 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { useSearch } from "../../context/SearchContext"; // Import the SearchContext
 
 import './css/table.css';
 
 function Itmestable() {
     const { category } = useParams();
     const [items, setItems] = useState([]);
-    const { user, apiDomain, handleUnauthorized,networkError } = useAuth();
+    const { user, apiDomain, handleUnauthorized, networkError } = useAuth();
+    const { searchQuery } = useSearch(); // Get searchQuery from SearchContext
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -29,7 +31,7 @@ function Itmestable() {
             } catch (error) {
                 console.error("Error fetching items:", error);
 
-                if(error.request) {
+                if (error.request && !error.response) {
                     networkError();
                 }
                 else if (error.response.status === 401) {
@@ -46,7 +48,10 @@ function Itmestable() {
         };
 
         fetchItems();
-    }, [category, apiDomain, user.token, handleUnauthorized]);
+    }, [category, apiDomain, user.token, handleUnauthorized, networkError]);
+
+    // Filter items based on search query
+    const filteredItems = items.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const deleteItem = async (id) => {
         const result = await swal.fire({
@@ -70,7 +75,10 @@ function Itmestable() {
                 swal.fire('Deleted!', 'Your item has been deleted.', 'success');
             } catch (error) {
                 console.error("Error deleting item:", error);
-                if (error.response.status === 401) {
+                if (error.request && !error.response) {
+                    networkError();
+                }
+                else if (error.response.status === 401) {
                     handleUnauthorized();
                 }
                 else {
@@ -103,7 +111,7 @@ function Itmestable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {items.map((item, index) => (
+                        {filteredItems.map((item, index) => (
                             <tr key={item._id}>
                                 <td>{index + 1}</td>
                                 <td>{item.title}</td>

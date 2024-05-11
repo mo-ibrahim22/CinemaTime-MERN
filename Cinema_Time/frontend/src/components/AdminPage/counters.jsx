@@ -26,7 +26,7 @@ function Counters() {
                 setCounters(response.data);
             } catch (error) {
                 console.error("Error fetching counters:", error);
-                if (error.request) {
+                if (error.request && !error.response) {
                     networkError();
                 }
                 else if (error.response.status === 401) {
@@ -43,7 +43,7 @@ function Counters() {
         };
 
         fetchCounters();
-    }, [user.token]);
+    }, [user.token, apiDomain, handleUnauthorized, networkError, setCounters]);
 
     return (
         <div className="container w-75 my-5">

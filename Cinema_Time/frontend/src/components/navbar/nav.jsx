@@ -1,24 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBlackTie } from '@fortawesome/free-brands-svg-icons';
 import { faUser, faUserEdit, faSignOutAlt, faStar as faStarSolid, faStar } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../context/AuthContext"; // Assuming your context file is named AuthContext.js
-
+import { useSearch } from "../../context/SearchContext"; // Import the SearchContext
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 function Navct() {
   const { user, removeuser } = useAuth();
   const navigate = useNavigate();
+  const { searchQuery, setSearchQuery } = useSearch(); // Get searchQuery and setSearchQuery from SearchContext
 
   const handleLogout = () => {
     removeuser();
     navigate("/");
   };
 
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value); // Update searchQuery state when input changes
+  };
+
   return (
     <>
-      <nav className="navbar navbar-expand-lg position-fixed  top-0 start-0 end-0 sticky-top navbar-dark navbg px-4">
+      <nav className="navbar navbar-expand-lg position-fixed top-0 start-0 end-0 sticky-top navbar-dark navbg px-4">
         <div className="container-fluid">
           <Link className="navbar-brand text-warning" to="/home">
             Cinema Time
@@ -67,7 +72,14 @@ function Navct() {
 
             <div className="d-flex me-4" role="search">
               <div className="input-group">
-                <input className="form-control rounded-5 text-start position-relative" type="search" placeholder="Search.." aria-label="Search" />
+                <input
+                  className="form-control rounded-5 text-start position-relative"
+                  type="search"
+                  placeholder="Search.."
+                  aria-label="Search"
+                  value={searchQuery} // Bind value to searchQuery state
+                  onChange={handleSearch} // Call handleSearch on change
+                />
                 <a className="btn btn-warning rounded-5 position-absolute  end-0">
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </a>

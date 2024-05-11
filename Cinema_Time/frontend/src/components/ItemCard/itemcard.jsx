@@ -8,8 +8,8 @@ import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import swal from "sweetalert2";
 
-function ItemCard({ items, userid, category, favpage }) {
-    const { user, apiDomain ,networkError,handleUnauthorized } = useAuth();
+function ItemCard({ items, userid, category, favpage, searchQuery }) {
+    const { user, apiDomain, networkError, handleUnauthorized } = useAuth();
     const navigate = useNavigate();
 
     const toggleFavorite = async (itemId, isFavorite) => {
@@ -43,7 +43,7 @@ function ItemCard({ items, userid, category, favpage }) {
 
         } catch (error) {
             console.error("Favorite Toggling Error:", error);
-            if (error.request) {
+            if (error.request && !error.response) {
                 networkError();
             }
             else if (error.response.status === 401) {
@@ -72,16 +72,19 @@ function ItemCard({ items, userid, category, favpage }) {
         return stars;
     };
 
+    // Filter items based on search query
+    const filteredItems = items.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
+
     return (
         <>
             <div className="mt-5 container text-center">
                 <div className="row">
-                    {items.map((item, index) => (
+                    {filteredItems.map((item, index) => (
                         <div key={item._id} className="col-sm-6 col-md-4 col-lg-2 p-3  card-animation">
                             <div className="card rounded-bottom-4 text-light card-bg position-relative ">
                                 <img src={item.poster} className="card-img-top item-img photo-animation" alt={item.title} />
                                 <div className="card-body">
-                                    <p className="card-title h5">{item.title.split(' ').slice(0, 2).join(' ')}{item.title.split(' ').length > 2 ? ' ..' : ''}</p>
+                                    <p className="card-title h5">{item.title.slice(0, 10)}{item.title.length > 10 ? ' ..' : ''}</p>
                                     <p className="card-text h6">{generateStars(item.rating)}</p>
                                     <Link to={`/detailspage/${item._id}`} className="btn btn-outline-warning border-0 rounded-5">
                                         <FontAwesomeIcon icon={faPlay} /> Watch

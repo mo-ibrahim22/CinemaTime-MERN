@@ -59,7 +59,7 @@ function UpdateItemForm({ item }) {
             });
         } catch (error) {
             console.error("Update error:", error);
-            if (error.request) {
+            if (error.request && !error.response) {
                 networkError();
             }
             else if (error.response.status === 401) {

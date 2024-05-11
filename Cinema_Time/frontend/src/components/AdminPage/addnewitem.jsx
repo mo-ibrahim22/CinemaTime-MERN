@@ -5,11 +5,14 @@ import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import swal from "sweetalert2";
 import './css/newitem.css';
+import { useNavigate } from "react-router-dom";
+
 
 function AddNewItem() {
-    const { user, apiDomain, handleUnauthorized,networkError } = useAuth();
+    const { user, apiDomain, handleUnauthorized, networkError } = useAuth();
     const [posterURL, setPosterURL] = useState(""); // To store the image URL
     const [isSubmitting, setIsSubmitting] = useState(false); // To track form submission
+    const navigate = useNavigate();
 
     const initialValues = {
         categorie: "",
@@ -55,12 +58,14 @@ function AddNewItem() {
                 icon: "success",
                 title: "New Item Added",
                 text: "New item added successfully.",
-            });
+            })
             resetForm();
-            // Clear form fields
+            setPosterURL("");
+            navigate("/admin/addnewitem");
+
         } catch (error) {
             console.error("Error adding item:", error);
-            if(error.request) {
+            if (error.request && !error.response) {
                 networkError();
             }
             else if (error.response.status === 401) {
@@ -78,6 +83,8 @@ function AddNewItem() {
             setSubmitting(false); // Set Formik isSubmitting to false
         }
     };
+
+
 
 
     return (
