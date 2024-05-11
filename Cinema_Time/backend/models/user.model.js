@@ -26,7 +26,11 @@ const userSchema = new schema({
     isAdmin: {
         type: Boolean,
         default: false
-    }
+    },
+    Favourites: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Item' 
+    }]
 },
     { Timestamp: true })
 

@@ -1,0 +1,75 @@
+{
+	"info": {
+		"_postman_id": "05e83d3e-e66c-4072-b30d-b108d4260990",
+		"name": "Item",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "34512220"
+	},
+	"item": [
+		{
+			"name": "Item by categorie",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjNjMTE3NjdmYzczMTkxZWVmOTFhMGIiLCJpYXQiOjE3MTUzOTIyNzksImV4cCI6MTcyNDAzMjI3OX0.H8OyRauKXx_mpznjMqCe6fCAED7okQ8g7k3w9UFRM08"
+					}
+				],
+				"url": "http://localhost:3000/api/item/TvShows"
+			},
+			"response": []
+		},
+		{
+			"name": "add new item",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjNiZTZiZWRhMTNkOGI0ZGIyY2E3NmUiLCJpYXQiOjE3MTUyODQwNzksImV4cCI6MTcyMzkyNDA3OX0.P25IXgG4zXHf9tF_HSTdo0UQV_b373bahmyIU5P5enc"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"categorie\": \"Anime\",\r\n    \"poster\": \"D:\\\\Collegue\\\\6th semester\\\\Web Development\\\\Our_project\\\\Photos\\\\Anime\\\\Attack on titan final season part 1.jpg\", // or provide a local file path if you want to upload a file\r\n    \"rating\": 4.5,\r\n    \"title\": \"Attack on titan\",\r\n    \"trailerLink\": \"https://www.youtube.com/watch?v=HOLGK3kRBj4\",\r\n    \"description\": \"Attack\",\r\n    \"watchingLink\": \"https://witanime.quest/anime/naruto/\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/api/item"
+			},
+			"response": []
+		},
+		{
+			"name": "item by id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjNjMTE3NjdmYzczMTkxZWVmOTFhMGIiLCJpYXQiOjE3MTUyOTEwNjMsImV4cCI6MTcyMzkzMTA2M30.T4lrf1uflzFYRu_vL_PgWZ67vC5WitnFkeXwoz4a_54"
+					}
+				],
+				"url": "http://localhost:3000/api/item/oneitem/663dba6bbe77394ad32dda94"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/api/item/663d4b398fe68d3c2ad541af",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjNiZTZiZWRhMTNkOGI0ZGIyY2E3NmUiLCJpYXQiOjE3MTUyODQwNzksImV4cCI6MTcyMzkyNDA3OX0.P25IXgG4zXHf9tF_HSTdo0UQV_b373bahmyIU5P5enc"
+					}
+				],
+				"url": "http://localhost:3000/api/item/663dba6bbe77394ad32dda94"
+			},
+			"response": []
+		}
+	]
+}

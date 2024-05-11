@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user.controller');
 const { verifyToken, checkUserEmail } = require('../middlewares/auth.middleware');
+const mongoose = require('mongoose')
 
 // User Registration
 router.post('/register', userController.registerUser);
@@ -21,11 +22,16 @@ router.put('/:id', verifyToken, userController.updateUser);
 // Delete User by ID
 router.delete('/:id', verifyToken, userController.deleteUser);
 
-//add to favourite 
+
+// Add to Favorites
+router.post('/:userId/favorites/:itemId', verifyToken, userController.addToFavorites);
 
 
-//retrive all favourites 
+// Retrieve All Favorites
+router.get('/:userId/favorites', verifyToken, userController.getAllFavorites);
+
+// Delete from Favorites
+router.delete('/:userId/myfavorites/:itemId', verifyToken, userController.deleteFromFavorites);
 
 
-// delete from favourite 
 module.exports = router;

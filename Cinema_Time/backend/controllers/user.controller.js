@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
+const Item = require('../models/items.model');
+const mongoose = require('mongoose');
 
 // User Registration
 exports.registerUser = async (req, res) => {
@@ -165,3 +167,92 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
+// Add to Favorites
+exports.addToFavorites = async (req, res) => {
+    try {
+        // Extract userId and itemId from request parameters
+        const userId = req.params.userId;
+        const itemId = req.params.itemId;
+
+        // Validate userId format
+        const isValidUserId = mongoose.Types.ObjectId.isValid(userId);
+        if (!isValidUserId) {
+            return res.status(400).json({ message: 'Invalid userId format' });
+        }
+
+        // Find the user by userId
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        //Check if item exists (You may need to import your Item model)
+        const item = await Item.findById(itemId);
+        if (!item) {
+            return res.status(404).json({ message: 'Item not found' });
+        }
+
+        // Initialize Favourites array if not already initialized
+        if (!user.Favourites) {
+            user.Favourites = [];
+        }
+
+        // Add item to favorites
+        user.Favourites.push(itemId);
+        await user.save();
+
+        res.json({ message: 'Item added to favorites successfully' });
+    } catch (error) {
+        console.error('Error adding item to favorites:', error);
+        res.status(500).json({ message: 'Error adding item to favorites' });
+    }
+};
+  // Retrieve All Favorites
+  exports.getAllFavorites = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+      
+        // Find the user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+  
+        // Retrieve favorite items
+        const favoriteItems = await Item.find({ _id: { $in: user.Favourites } });
+  
+        res.status(201).json(favoriteItems);
+    } catch (error) {
+        console.error('Error retrieving favorite items:', error);
+        res.status(500).json({ message: 'Error retrieving favorite items' });
+    }
+};
+
+ // Delete from Favorites
+exports.deleteFromFavorites = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const itemId = req.params.itemId;
+
+        // Find the user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if item exists in favorites
+        const itemIndex = user.Favourites.findIndex(fav => fav.equals(itemId));
+        if (itemIndex === -1) {
+            return res.status(404).json({ message: 'Item not found in favorites' });
+        }
+
+        // Remove item from favorites
+        user.Favourites.splice(itemIndex, 1);
+        await user.save();
+
+        res.json({ message: 'Item removed from favorites successfully' });
+    } catch (error) {
+        console.error('Error removing item from favorites:', error);
+        res.status(500).json({ message: 'Error removing item from favorites' });
+    }
+};

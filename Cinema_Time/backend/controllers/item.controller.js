@@ -41,23 +41,34 @@ const createNewItem = async (req, res) => {
 const getAllItemsByCategory = async (req, res) => {
   const category = req.params.category;
   try {
-      // Fetch items from the database of ur category
+      // Fetch items from the database of your category
       const items = await item.find({ categorie: category });
 
-      // Map through the items and update the poster field to be the Cloudinary image URL
-      const itemsWithCloudinaryURL = await Promise.all(items.map(async (item) => {
+      // Fetch the user ID from the token
+      const userId = req.userId;
+
+      // Retrieve the user's favorites
+      const user = await User.findById(userId);
+      const userFavorites = user ? user.Favourites : [];
+
+      // Map through the items and update them to include whether they are in the user's favorites
+      const itemsWithFavoriteInfo = await Promise.all(items.map(async (item) => {
           // Fetch the Cloudinary URL for each item's poster
           const cloudinaryURL = await cloudinary.url(item.poster);
 
-          // Return a new object with the Cloudinary URL replacing the base64 string
+          // Check if the item is in the user's favorites
+          const isFavorite = userFavorites.includes(item._id.toString());
+
+          // Return a new object with the Cloudinary URL and favorite information
           return {
               ...item.toObject(),
-              poster: cloudinaryURL
+              poster: cloudinaryURL,
+              isFavorite
           };
       }));
 
       // Respond with the updated items
-      res.json(itemsWithCloudinaryURL);
+      res.json(itemsWithFavoriteInfo);
   } catch (error) {
       res.status(500).json({ message: error.message });
   }
@@ -96,22 +107,6 @@ const getItemById = async (req, res) => {
   }
 };
 
-
-/*
-const getItemById = async (req, res) => {
-  const id = req.params.id;
-  try {
-    const Item = await item.findById(id);
-    if (!Item) {
-      return res.status(404).json({ message: 'item not found' });
-    }
-  
-    res.json({ Item ,message: 'item retrived successfully' });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-*/
 
 
 const deleteItemById = async (req, res) => {

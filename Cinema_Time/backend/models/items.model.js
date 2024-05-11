@@ -29,7 +29,7 @@ const itemSchema = new mongoose.Schema({
   watchingLink: {
     type: String,
     required: true
-  }
+  },
 }, { Timestamp: true })
 
 const item = mongoose.model('item', itemSchema);
