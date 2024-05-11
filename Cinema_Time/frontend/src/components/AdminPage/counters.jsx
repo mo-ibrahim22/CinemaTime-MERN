@@ -43,7 +43,7 @@ function Counters() {
         };
 
         fetchCounters();
-    }, [user.token]);
+    }, [user.token, apiDomain, handleUnauthorized, networkError, setCounters]);
 
     return (
         <div className="container w-75 my-5">
