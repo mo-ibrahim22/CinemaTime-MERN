@@ -8,7 +8,7 @@ function Homepg() {
     return (
         <>
 
-            <div id="carouselExampleAutoplaying" class="carousel slide " data-bs-ride="carousel"
+            <div id="carouselExampleAutoplaying" class="carousel slide position-absolute top-0" data-bs-ride="carousel"
                 data-bs-interval="2500">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
