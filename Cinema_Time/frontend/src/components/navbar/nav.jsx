@@ -5,6 +5,8 @@ import { faBlackTie } from '@fortawesome/free-brands-svg-icons';
 import { faUser, faUserEdit, faSignOutAlt, faStar as faStarSolid, faStar } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../context/AuthContext"; // Assuming your context file is named AuthContext.js
 
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+
 function Navct() {
   const { user, removeuser } = useAuth();
   const navigate = useNavigate();
@@ -63,14 +65,15 @@ function Navct() {
               </li>
             </ul>
 
-            <div className="d-flex justify-content-start w-50">
-              <form className="d-flex" role="search">
-                <input className="form-control me-2 rounded-5 text-center" type="search" placeholder="Search" aria-label="Search" />
-                <button className="btn btn-outline-warning rounded-5" type="submit">
-                  Search
-                </button>
-              </form>
+            <div className="d-flex me-4" role="search">
+              <div className="input-group">
+                <input className="form-control rounded-5 text-start position-relative" type="search" placeholder="Search.." aria-label="Search" />
+                <a className="btn btn-warning rounded-5 position-absolute  end-0">
+                  <FontAwesomeIcon icon={faMagnifyingGlass} />
+                </a>
+              </div>
             </div>
+
 
             <div className="d-flex justify-content-between">
               <NavLink to="/favourites" className="btn btn-outline-warning rounded-5" activeClassName="btn-warning">

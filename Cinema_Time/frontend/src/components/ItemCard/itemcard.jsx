@@ -83,7 +83,7 @@ function ItemCard({ items, userid, category, favpage }) {
                                 <div className="card-body">
                                     <p className="card-title h5">{item.title.split(' ').slice(0, 2).join(' ')}{item.title.split(' ').length > 2 ? ' ..' : ''}</p>
                                     <p className="card-text h6">{generateStars(item.rating)}</p>
-                                    <Link to={`/detailspage/${item._id}`} className="btn btn-outline-warning rounded-5">
+                                    <Link to={`/detailspage/${item._id}`} className="btn btn-outline-warning border-0 rounded-5">
                                         <FontAwesomeIcon icon={faPlay} /> Watch
                                     </Link>
                                 </div>

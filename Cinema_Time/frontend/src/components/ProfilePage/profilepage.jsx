@@ -30,7 +30,7 @@ function Profilepg() {
                 });
             } catch (error) {
                 console.error("Profile fetch error:", error);
-                if(error.request) {
+                if (error.request) {
                     networkError();
                 }
                 else if (error.response.status === 401) {
@@ -51,7 +51,7 @@ function Profilepg() {
     }, [email, user.token]);
 
     if (!userobj) {
-        return <div className="bg-black">Loading...</div>;
+        return;
     }
 
     const toggleUpdateForm = () => { // Changed function name
