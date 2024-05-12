@@ -7,13 +7,8 @@ import swal from "sweetalert2";
 import { useAuth } from "../../context/AuthContext";
 
 function Counters() {
-    const { user, apiDomain, handleUnauthorized, networkError } = useAuth();
-    const [counters, setCounters] = useState({
-        Movies: 0,
-        TvShows: 0,
-        Anime: 0,
-        Total: 0
-    });
+    const { user, apiDomain, handleUnauthorized, networkError, admincounters, setCounters } = useAuth();
+
 
     useEffect(() => {
         const fetchCounters = async () => {
@@ -43,22 +38,22 @@ function Counters() {
         };
 
         fetchCounters();
-    }, [user.token, apiDomain, handleUnauthorized, networkError, setCounters]);
+    }, [handleUnauthorized, setCounters]);
 
     return (
         <div className="container w-75 my-5">
             <div className="row">
                 <div className="col-lg-3 col-md-6 col-sm-6">
-                    <Cards icon={faClapperboard} name="Movies" count={counters.Movies} />
+                    <Cards icon={faClapperboard} name="Movies" count={admincounters.Movies} />
                 </div>
                 <div className="col-lg-3 col-md-6 col-sm-6">
-                    <Cards icon={faTv} name="TvShows" count={counters.TvShows} />
+                    <Cards icon={faTv} name="TvShows" count={admincounters.TvShows} />
                 </div>
                 <div className="col-lg-3 col-md-6 col-sm-6">
-                    <Cards icon={faGhost} name="Anime" count={counters.Anime} />
+                    <Cards icon={faGhost} name="Anime" count={admincounters.Anime} />
                 </div>
                 <div className="col-lg-3 col-md-6 col-sm-6">
-                    <Cards icon={faFilm} name="Total" count={counters.Total} />
+                    <Cards icon={faFilm} name="Total" count={admincounters.Total} />
                 </div>
             </div>
         </div>

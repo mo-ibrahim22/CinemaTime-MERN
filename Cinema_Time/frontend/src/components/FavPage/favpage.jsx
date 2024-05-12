@@ -50,7 +50,7 @@ function FavouritesPage() {
         };
 
         fetchFavoriteItems();
-    }, [userid, user.token, apiDomain, handleUnauthorized]);
+    }, [userid, handleUnauthorized]);
 
     // Filter items based on search query
     const filteredItems = favoriteItems.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()));

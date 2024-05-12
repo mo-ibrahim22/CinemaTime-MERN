@@ -42,7 +42,7 @@ function DetailsPage() {
         };
 
         fetchItem();
-    }, [itemId, user.token, apiDomain, handleUnauthorized]);
+    }, [itemId,handleUnauthorized]);
 
     const renderStars = (rating) => {
         const stars = [];

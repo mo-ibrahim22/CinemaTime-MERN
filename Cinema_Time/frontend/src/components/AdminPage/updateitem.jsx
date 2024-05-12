@@ -43,7 +43,7 @@ function UpdateItem() {
         };
 
         fetchItem();
-    }, [itemId, user.token]);
+    }, [itemId]);
 
     if (!item) {
         return <div className="text-light">{itemId}</div>;

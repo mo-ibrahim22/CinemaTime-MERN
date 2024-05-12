@@ -61,7 +61,6 @@ function AddNewItem() {
             })
             resetForm();
             setPosterURL("");
-            navigate("/admin/addnewitem");
 
         } catch (error) {
             console.error("Error adding item:", error);
@@ -103,7 +102,7 @@ function AddNewItem() {
                             <div className="form-group pt-3 text-light">
                                 <label htmlFor="categorie">Category</label>
                                 <Field as="select" name="categorie" className="form-control">
-                                    <option value="">Select Category</option>
+                                    <option value="" disabled>Select Category</option>
                                     <option value="Movies">Movies</option>
                                     <option value="TvShows">TvShows</option>
                                     <option value="Anime">Anime</option>
