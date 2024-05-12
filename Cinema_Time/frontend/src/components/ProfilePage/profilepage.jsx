@@ -48,7 +48,7 @@ function Profilepg() {
         };
 
         fetchUserDetails();
-    }, [email, handleUnauthorized]);
+    }, [email]);
 
     if (!userobj) {
         return;
