@@ -72,7 +72,6 @@ function Itmestable() {
                 const updatedItems = items.filter(item => item._id !== id);
                 setItems(updatedItems);
                 swal.fire('Deleted!', 'Your item has been deleted.', 'success');
-                setCounters(admincounters => ({ admincounters, [category]: admincounters[category] - 1 })); // Update the counter
 
             } catch (error) {
                 console.error("Error deleting item:", error);
