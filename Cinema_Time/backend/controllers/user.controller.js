@@ -43,6 +43,7 @@ exports.loginUser = async (req, res) => {
         if (!isPasswordMatch) {
             return res.status(400).json({ message: 'Invalid password for the User' });
         }
+
         // Generate and return JWT token after logged in successfully
         const token = jwt.sign({ userId: user.id }, 'mySecret', { expiresIn: '100d' });
         if ( user.isAdmin !== undefined) {
@@ -55,14 +56,14 @@ exports.loginUser = async (req, res) => {
     }
 };
 
-// Get All Users
+// Get All Users(Admin Only)
 exports.getAllUsers = async (req, res) => {
     if (!req.isAdmin) {
         return res.status(403).json({ message: 'Forbidden Access' });
     }
     try {
         const users = await User.find();
-        res.status(200).json({ message: 'Data retrieved successfully', users });
+        res.status(201).json({ message: 'Data retrieved successfully', users });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -78,39 +79,44 @@ exports.getUserByEmail = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        res.status(200).json({ user });
+        res.status(201).json({ user });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
-// Update User by ID
+
+// Update User by ID (edit account)
 exports.updateUser = async (req, res) => {
     const { id } = req.params;
     const { name, email, oldPassword, newPassword, gender } = req.body;
-    const { userId } = req;
+   // const { userId } = req; no need
 
     try {
         // Find the user by ID
         const userToUpdate = await User.findById(id);
 
         // Verify if the user exists and matches the logged-in user
-        if (!userToUpdate || userToUpdate._id.toString() !== userId) {
+        if (!userToUpdate || userToUpdate._id.toString() !== id) {
             return res.status(403).json({ message: 'Unauthorized: You are not allowed to update this user\'s data' });
         }
 
         // Verify old password if provided
-        if (oldPassword) {
+        if (oldPassword)
+        {
             const passwordMatch = await bcrypt.compare(oldPassword, userToUpdate.password);
-            if (!passwordMatch) {
-                return res.status(403).json({ message: 'Old password does not match. Cannot update user.' });
+            if (!passwordMatch) 
+            {
+                return res.status(405).json({ message: 'Old password does not match. Cannot update user.' });
             }
-        } else {
-            return res.status(400).json({ message: 'Old password is required to update user.' });
+        } 
+        else 
+        {
+            return res.status(406).json({ message: 'Old password is required to update user.' });
         }
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        // Update user information
+        // Update user information is ready now 
         const updatedFields = { name, email, password: hashedPassword, gender };
 
         const updatedUser = await User.findByIdAndUpdate(
@@ -129,18 +135,19 @@ exports.updateUser = async (req, res) => {
     }
 };
 
-// Delete User by ID
+// Delete User by ID (for anyone to delete their account)
 exports.deleteUser = async (req, res) => {
     const { id } = req.params;
-    const { userId } = req;
+    //const { userId } = req;
     const { oldPassword } = req.body;
 
     try {
         // Find the user by ID
         const userToDelete = await User.findById(id);
 
+        
         // Verify if the user exists and matches the logged-in user
-        if (!userToDelete || userToDelete._id.toString() !== userId) {
+        if (!userToDelete || userToDelete._id.toString() !== id) {
             return res.status(403).json({ message: 'Unauthorized: You are not allowed to delete this user' });
         }
 
@@ -148,20 +155,18 @@ exports.deleteUser = async (req, res) => {
         if (oldPassword) {
             const passwordMatch = await bcrypt.compare(oldPassword, userToDelete.password);
             if (!passwordMatch) {
-                return res.status(403).json({ message: 'Old password does not match. Cannot delete user.' });
+                return res.status(405).json({ message: 'Old password does not match. Cannot delete user.' });
             }
         } else {
-            return res.status(400).json({ message: 'Old password is required to delete user.' });
+            return res.status(406).json({ message: 'Old password is required to delete user.' });
         }
 
         // Delete the user
         const deletedUser = await User.findByIdAndDelete(id);
-
         if (!deletedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
-
-        res.status(200).json({ message: 'User deleted', deletedUser });
+        res.status(201).json({ message: 'User deleted', deletedUser });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -174,10 +179,11 @@ exports.addToFavorites = async (req, res) => {
         const userId = req.params.userId;
         const itemId = req.params.itemId;
 
-        // Validate userId format
+        // Validate userId / itemId format
         const isValidUserId = mongoose.Types.ObjectId.isValid(userId);
-        if (!isValidUserId) {
-            return res.status(400).json({ message: 'Invalid userId format' });
+        const isValidItemId = mongoose.Types.ObjectId.isValid(itemId);
+        if (!isValidUserId || !isValidItemId) {
+            return res.status(400).json({ message: 'check the format of the id again' });
         }
 
         // Find the user by userId
@@ -186,7 +192,7 @@ exports.addToFavorites = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        //Check if item exists (You may need to import your Item model)
+        //Check if item exists 
         const item = await Item.findById(itemId);
         if (!item) {
             return res.status(404).json({ message: 'Item not found' });
@@ -199,16 +205,15 @@ exports.addToFavorites = async (req, res) => {
 
         // Add item to favorites
         user.Favourites.push(itemId);
-        await user.save();
+        await user.save();  // save in the database 
 
-        res.json({ message: 'Item added to favorites successfully' });
+        res.status(200).json({ message: 'Item added to favorites successfully' });
     } catch (error) {
-        console.error('Error adding item to favorites:', error);
         res.status(500).json({ message: 'Error adding item to favorites' });
     }
 };
-  // Retrieve All Favorites
-  exports.getAllFavorites = async (req, res) => {
+// Retrieve All Favorites
+exports.getAllFavorites = async (req, res) => {
     try {
         const userId = req.params.userId;
       
@@ -223,7 +228,6 @@ exports.addToFavorites = async (req, res) => {
   
         res.status(201).json(favoriteItems);
     } catch (error) {
-        console.error('Error retrieving favorite items:', error);
         res.status(500).json({ message: 'Error retrieving favorite items' });
     }
 };
@@ -252,7 +256,6 @@ exports.deleteFromFavorites = async (req, res) => {
 
         res.json({ message: 'Item removed from favorites successfully' });
     } catch (error) {
-        console.error('Error removing item from favorites:', error);
         res.status(500).json({ message: 'Error removing item from favorites' });
     }
 };

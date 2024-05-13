@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors');
+const cors = require('cors');  // access resources from  remote host for security measure purposes
 const mongoose = require('mongoose');
 const item = require('./routes/item.route.js');
 const user = require('./routes/user.route.js');
