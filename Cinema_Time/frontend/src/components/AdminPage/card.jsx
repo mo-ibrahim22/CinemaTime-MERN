@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAuth } from "../../context/AuthContext";
 
 function Cards(props) {
     const [currentCount, setCurrentCount] = useState(0);
-
+    const { admincounters, setCounters } = useAuth();
     useEffect(() => {
         const interval = setInterval(() => {
             if (currentCount < props.count) {
@@ -14,6 +15,10 @@ function Cards(props) {
         }, 100);
         return () => clearInterval(interval);
     }, [currentCount, props.count]);
+
+    useEffect(() => {
+        setCurrentCount(admincounters[props.name]);
+    }, [admincounters[props.name]]);
 
     return (
         <>

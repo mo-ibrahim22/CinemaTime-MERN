@@ -46,7 +46,7 @@ function Itemspage() {
         };
 
         fetchItems();
-    }, [category, user.token, apiDomain, handleUnauthorized]);
+    }, [category,handleUnauthorized]);
 
     // Filter items based on search query
     const filteredItems = items.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()));

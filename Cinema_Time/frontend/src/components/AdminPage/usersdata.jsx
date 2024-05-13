@@ -42,7 +42,7 @@ function Usersdata() {
         };
 
         fetchUsersDetails();
-    }, [user.token, apiDomain, handleUnauthorized, networkError]);
+    }, []);
 
     if (!usersobj) {
         return <div>Loading...</div>;

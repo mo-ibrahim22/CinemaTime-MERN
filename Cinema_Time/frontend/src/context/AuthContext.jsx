@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
         } catch (error) {
             console.error("Profile fetch error:", error);
-            if(error.request) {
+            if (error.request) {
                 networkError();
             }
             else if (error.response.status === 401) {
@@ -87,8 +87,15 @@ export const AuthProvider = ({ children }) => {
         });
     };
 
+    const [admincounters, setCounters] = useState({
+        Movies: 0,
+        TvShows: 0,
+        Anime: 0,
+        Total: 0
+    });
+
     return (
-        <AuthContext.Provider value={{ user, apiDomain, createuser, removeuser, handleUnauthorized, fetchUserDetails,networkError }}>
+        <AuthContext.Provider value={{ user, apiDomain, admincounters, createuser, removeuser, handleUnauthorized, fetchUserDetails, networkError, setCounters }}>
             {children}
         </AuthContext.Provider>
     );

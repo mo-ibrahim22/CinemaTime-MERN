@@ -11,7 +11,7 @@ import './css/table.css';
 function Itmestable() {
     const { category } = useParams();
     const [items, setItems] = useState([]);
-    const { user, apiDomain, handleUnauthorized, networkError } = useAuth();
+    const { user, apiDomain, handleUnauthorized, networkError, admincounters, setCounters } = useAuth();
     const { searchQuery } = useSearch(); // Get searchQuery from SearchContext
 
     useEffect(() => {
@@ -48,11 +48,10 @@ function Itmestable() {
         };
 
         fetchItems();
-    }, [category, apiDomain, user.token, handleUnauthorized, networkError]);
+    }, [category]);
 
     // Filter items based on search query
     const filteredItems = items.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
-
     const deleteItem = async (id) => {
         const result = await swal.fire({
             title: 'Are you sure?',
@@ -73,6 +72,7 @@ function Itmestable() {
                 const updatedItems = items.filter(item => item._id !== id);
                 setItems(updatedItems);
                 swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+
             } catch (error) {
                 console.error("Error deleting item:", error);
                 if (error.request && !error.response) {
