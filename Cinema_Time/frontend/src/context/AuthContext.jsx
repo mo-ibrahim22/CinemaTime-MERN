@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
         } catch (error) {
             console.error("Profile fetch error:", error);
-            if (error.request) {
+            if (error.request && !error.response) {
                 networkError();
             }
             else if (error.response.status === 401) {

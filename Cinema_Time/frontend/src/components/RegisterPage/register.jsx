@@ -8,7 +8,7 @@ import "./css/reg.css";
 import swal from "sweetalert2";
 
 function Register() {
-    const { createuser, apiDomain ,networkError} = useAuth();
+    const { createuser, apiDomain, networkError } = useAuth();
     const navigate = useNavigate();
 
     const initialValues = {
@@ -48,7 +48,7 @@ function Register() {
             swal.fire({
                 icon: "success",
                 icon: "success",
-                title: `Welcome, ${ values.email.split("@")[0].charAt(0).toUpperCase() + values.email.split("@")[0].slice(1) }!`,
+                title: `Welcome, ${values.email.split("@")[0].charAt(0).toUpperCase() + values.email.split("@")[0].slice(1)}!`,
                 text: "You have successfully registered.",
             });
         } catch (error) {
@@ -56,11 +56,14 @@ function Register() {
             if (error.request && !error.response) {
                 networkError();
             }
-            swal.fire({
-                icon: "error",
-                title: "Registration Failed",
-                text: "An error occurred while registering. Please try another email.",
-            });
+            else {
+
+                swal.fire({
+                    icon: "error",
+                    title: "Registration Failed",
+                    text: "An error occurred while registering. Please try another email.",
+                });
+            }
         }
     };
 

@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import UpdateItemForm from "./updateitemform";
 
 function UpdateItem() {
-    const { user, apiDomain, handleUnauthorized,networkError } = useAuth();
+    const { user, apiDomain, handleUnauthorized, networkError } = useAuth();
     const [item, setItem] = useState(null);
     const { itemId } = useParams();
 
@@ -46,7 +46,7 @@ function UpdateItem() {
     }, [itemId]);
 
     if (!item) {
-        return <div className="text-light">{itemId}</div>;
+        return;
     }
 
     return (

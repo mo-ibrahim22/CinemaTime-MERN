@@ -7,6 +7,7 @@ import swal from "sweetalert2";
 import './css/newitem.css';
 
 function UpdateItemForm({ item }) {
+    
     const { user, apiDomain, handleUnauthorized, networkError } = useAuth();
     const [posterURL, setPosterURL] = useState(item.poster); // To store the image URL
     const [isSubmitting, setIsSubmitting] = useState(false);
