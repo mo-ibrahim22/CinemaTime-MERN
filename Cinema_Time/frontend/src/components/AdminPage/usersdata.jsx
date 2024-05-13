@@ -7,6 +7,7 @@ import { useSearch } from "../../context/SearchContext"; // Import the SearchCon
 
 function Usersdata() {
     const { user, apiDomain, handleUnauthorized, networkError } = useAuth();
+
     const [usersobj, setUsersobj] = useState(null);
     const { searchQuery } = useSearch(); // Get searchQuery from SearchContext
 
@@ -45,7 +46,7 @@ function Usersdata() {
     }, []);
 
     if (!usersobj) {
-        return <div>Loading...</div>;
+        return ;
     }
 
     // Filter users based on search query
