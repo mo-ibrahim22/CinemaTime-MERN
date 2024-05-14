@@ -54,7 +54,7 @@ function Updateacc({ userobj }) {
                 text: "Your profile has been successfully updated.",
                 confirpbuttonText: "OK",
             }).then((result) => {
-                if (result.isConfirmed) {
+                if (result.isConfirmed||result.isDismissed) {
                     removeuser();
                     navigate("/");
                 }

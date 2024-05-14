@@ -4,7 +4,7 @@ Cinema Time is a MERN (MongoDB, Express, React, Node.js) stack web application t
 
 Admins have additional privileges, such as adding, removing, or updating items, and accessing a dashboard to manage items and view user data.
 
-## Technologies Used
+## Technologies Used 
 
 ### Frontend
 - React

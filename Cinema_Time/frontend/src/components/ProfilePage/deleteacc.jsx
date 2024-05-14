@@ -9,7 +9,7 @@ import withReactContent from "sweetalert2-react-content";
 
 
 function DeleteAccount({ userobj }) {
-    const { user, removeuser, apiDomain, handleUnauthorized , networkError} = useAuth();
+    const { user, removeuser, apiDomain, handleUnauthorized, networkError } = useAuth();
     const navigate = useNavigate();
     const MySwal = withReactContent(Swal);
     const [deleteSuccess, setDeleteSuccess] = useState(false);
@@ -44,7 +44,7 @@ function DeleteAccount({ userobj }) {
                 text: "Your account has been successfully deleted.",
                 confirmButtonText: "OK",
             }).then((result) => {
-                if (result.isConfirmed) {
+                if (result.isConfirmed || result.isDismissed) {
                     removeuser();
                     navigate("/");
                 }
